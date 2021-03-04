@@ -11,7 +11,8 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import axios from "axios";
-
+import wrapper from "../../store/store";
+import { useSelector } from "react-redux"
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -42,8 +43,12 @@ const styles = {
   },
 };
 
-function TableList({data}) {
-  console.log(data)
+function TableList({}) {
+
+const currentUser = useSelector(state => state.currentUser)
+
+console.log(currentUser)
+
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   return (
@@ -113,7 +118,7 @@ function TableList({data}) {
     </GridContainer>
   );
 }
-
+/*
 export async function getServerSideProps(context) {
 
   const res = await fetch(`http://127.0.0.1:3000/manager`);
@@ -130,6 +135,51 @@ return {
 };
 
 }
+*/
+/*
+export const getServerSideProps = async (ctx) => {
+  console.log(ctx.req.headers)
+  let currentUser
+  try {   
+      currentUser = await axios.get("http://localhost:3000/users/me", {
+          headers: ctx.req.headers
+      })
+     if(!currentUser.data) {
+      return {
+          redirect: {
+            destination: '/login',
+            permanent: false,
+          },
+      }
+     }
+    
+  } catch (error) {
+      console.log(error)
+      return {
+          redirect: {
+            destination: '/',
+            permanent: false,
+          },
+      }
+  }
+
+  return {
+      props: {
+          currentUser: currentUser.data
+      }
+  }
+}
+*/
+/*
+export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
+  const state = ctx.store.getState();
+  console.log("ADMIN", state);
+  if (!state.currentUser.currentUser) {
+    ctx.res.writeHead(307, { Location: "/login" });
+    ctx.res.end();
+  }
+  return {};
+});*/
 
 TableList.layout = Admin;
 

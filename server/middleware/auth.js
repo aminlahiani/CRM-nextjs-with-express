@@ -8,16 +8,19 @@ const auth = async (req, res, next) => {
         //const token = req.header('Authorization').replace('Bearer ', '')
         const decoded = jwt.verify(token, 'thisismynewcourse')
         const user = await User.findOne({ _id: decoded._id , role: decoded.role})
+        console.log("sss" , user)
 
         if (!user) {
-            throw new Error()
+            req.user = null
+            return next()
         }
 
         req.token = token
         req.user = user
         next()
     } catch (e) {
-        res.status(401).send({ error: 'Please authenticate.' })
+        req.user = null
+        next()
     }
 }
 

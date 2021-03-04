@@ -33,7 +33,7 @@ export default function LoginPage(props) {
   const router = useRouter()
   const submitHandler = async () => {
 		try {
-			const response = await axios.post("http://127.0.0.1:3000/admin/login", {
+			const response = await axios.post("/admin/login", {
 				email,
 				password,
 			});

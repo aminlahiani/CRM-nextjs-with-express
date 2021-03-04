@@ -4,7 +4,7 @@ const connectDB = require('./config/db');
 const cors = require("cors");
 const session = require('express-session')
 const AdminRoute = require("./routes/admin")
-
+require("dotenv").config()
 const ManagerRoute = require("./routes/manager")
 
 connectDB();

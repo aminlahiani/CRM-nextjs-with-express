@@ -24,6 +24,11 @@ import Router from "next/router";
 import PageChange from "components/PageChange/PageChange.js";
 
 import "assets/css/nextjs-material-dashboard.css?v=1.1.0";
+import wrapper from "../store/store";
+
+import { currentUserSuccess } from "../store/currentUser/currentUserSlice";
+import axios from "../utils/axios";
+
 
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
@@ -42,38 +47,8 @@ Router.events.on("routeChangeError", () => {
   document.body.classList.remove("body-page-transition");
 });
 
-export default class MyApp extends App {
-  componentDidMount() {
-    let comment = document.createComment(`
-
-=========================================================
-* * NextJS Material Dashboard v1.1.0 based on Material Dashboard React v1.9.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/nextjs-material-dashboard
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/nextjs-material-dashboard/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-`);
-    document.insertBefore(comment, document.documentElement);
-  }
-  static async getInitialProps({ Component, router, ctx }) {
-    let pageProps = {};
-
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps };
-  }
-  render() {
-    const { Component, pageProps } = this.props;
+const MyApp = ({Component, pageProps}) => {
+ 
 
     const Layout = Component.layout || (({ children }) => <>{children}</>);
 
@@ -92,5 +67,18 @@ export default class MyApp extends App {
         </Layout>
       </React.Fragment>
     );
-  }
+  
 }
+
+MyApp.getInitialProps = wrapper.getServerSideProps(async (ctx) => {
+  const response  = await axios.get("/users/me", {
+    headers: ctx.req && ctx.req.headers
+  });
+  console.log(response)
+  ctx.store.dispatch(currentUserSuccess(response.data.currentUser));
+  console.log(response.data.currentUser)
+	//ctx.store.dispatch(currentUserSuccess({ _id: "akjbfkjabf" }));
+	return {};
+});
+
+export default wrapper.withRedux(MyApp);

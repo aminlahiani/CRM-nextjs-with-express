@@ -30,7 +30,8 @@ router.post('/admin/login', async (req, res) => {
   }
 })
 router.get("/users/me", auth, async (req, res) => {
-  res.send(req.user);
+  console.log(req.user)
+  res.send({currentUser: req.user});
 });
 
 module.exports = router;
