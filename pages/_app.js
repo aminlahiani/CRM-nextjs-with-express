@@ -27,7 +27,7 @@ import "assets/css/nextjs-material-dashboard.css?v=1.1.0";
 import wrapper from "../store/store";
 
 import { currentUserSuccess } from "../store/currentUser/currentUserSlice";
-import axios from "../utils/axios";
+import axios from "axios";
 
 
 Router.events.on("routeChangeStart", (url) => {
@@ -71,7 +71,7 @@ const MyApp = ({Component, pageProps}) => {
 }
 
 MyApp.getInitialProps = wrapper.getServerSideProps(async (ctx) => {
-  const response  = await axios.get("/users/me", {
+  const response  = await axios.get("http://localhost:3000/users/me", {
     headers: ctx.req && ctx.req.headers
   });
   console.log(response)

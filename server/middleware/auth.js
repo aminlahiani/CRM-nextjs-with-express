@@ -1,15 +1,25 @@
 
 const jwt = require('jsonwebtoken')
-const User = require('../models/user')
+
+const Admin = require("../models/admin")
+const Manager = require('../models/manager')
+const Employee = require('../models/Employee')
 
 const auth = async (req, res, next) => {
     try {
         const token =  req.session.token
         //const token = req.header('Authorization').replace('Bearer ', '')
         const decoded = jwt.verify(token, 'thisismynewcourse')
-        const user = await User.findOne({ _id: decoded._id , role: decoded.role})
-        console.log("sss" , user)
+        let user
 
+        if(decoded.role === "ADMIN"){
+            user = await Admin.findOne({ _id: decoded._id })
+        }else if(decoded.role === "MANAGER") {
+          user = await Manager.findOne({ _id: decoded._id })
+         }else{
+          user = await Employee.findOne({ _id: decoded._id })
+        }
+        
         if (!user) {
             req.user = null
             return next()

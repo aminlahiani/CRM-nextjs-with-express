@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 
 // @material-ui/icons
-
+import Link from "next/link"
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
@@ -31,16 +31,18 @@ export default function TeamSection() {
   );
   return (
     <div className={classes.section}>
-      <h2 className={classes.title}>Here is our team</h2>
+      <h2 className={classes.title}>Who are you</h2>
       <div>
         <GridContainer>
           <GridItem xs={12} sm={12} md={4}>
             <Card plain>
+           <Link href="/admin">
               <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
                 <img src={team1} alt="..." className={imageClasses} />
               </GridItem>
+              </Link>
               <h4 className={classes.cardTitle}>
-                Gigi Hadid
+                Admin
                 <br />
                 <small className={classes.smallTitle}>Model</small>
               </h4>
@@ -79,11 +81,13 @@ export default function TeamSection() {
           </GridItem>
           <GridItem xs={12} sm={12} md={4}>
             <Card plain>
+            <Link href="/manager">
               <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
                 <img src={team2} alt="..." className={imageClasses} />
               </GridItem>
+              </Link>
               <h4 className={classes.cardTitle}>
-                Christian Louboutin
+                Manager
                 <br />
                 <small className={classes.smallTitle}>Designer</small>
               </h4>
@@ -115,11 +119,13 @@ export default function TeamSection() {
           </GridItem>
           <GridItem xs={12} sm={12} md={4}>
             <Card plain>
+            <Link href="/employee">
               <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
                 <img src={team3} alt="..." className={imageClasses} />
               </GridItem>
+              </Link>
               <h4 className={classes.cardTitle}>
-                Kendall Jenner
+                Employee
                 <br />
                 <small className={classes.smallTitle}>Model</small>
               </h4>
